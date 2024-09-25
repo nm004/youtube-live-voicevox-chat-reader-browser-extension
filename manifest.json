@@ -1,0 +1,85 @@
+{
+	"manifest_version": 3,
+	"name": "YouTube Live VOICEVOX チャット読み上げ",
+	"version": "1.0.0",
+	"description": "VOICEVOXがYouTube Liveのチャットを読み上げます",
+	"author": "Nozomi Miyamori",
+	"options_ui": {
+		"open_in_tab": false,
+		"page": "options/index.html"
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"https://www.youtube.com/live_chat?*",
+				"https://studio.youtube.com/live_chat?*"
+			],
+			"js": [
+				"src/sites/youtube.com/init.js"
+			],
+			"all_frames": true
+		},
+		{
+			"matches": [
+				"https://www.twitch.tv/*",
+				"https://dashboard.twitch.tv/*"
+			],
+			"js": [
+				"src/sites/twitch.tv/init.js"
+			],
+			"run_at": "document_start"
+		}
+	],
+	"web_accessible_resources": [
+		{
+			"matches": [
+				"https://www.youtube.com/*",
+				"https://studio.youtube.com/*"
+			],
+			"resources": [
+				"src/reader.js",
+				"src/util.js",
+				"src/sites/trap.js",
+				"src/sites/util.js",
+				"src/sites/youtube.com/trap.js",
+				"src/sites/youtube.com/main.js"
+			]
+		},
+		{
+			"matches": [
+				"https://www.twitch.tv/*",
+				"https://dashboard.twitch.tv/*"
+			],
+			"resources": [
+				"src/reader.js",
+				"src/util.js",
+				"src/sites/trap.js",
+				"src/sites/util.js",
+				"src/sites/twitch.tv/trap.js",
+				"src/sites/twitch.tv/main.js"
+			]
+		}
+	],
+	"declarative_net_request": {
+		"rule_resources": [{
+			"id": "voicevox",
+			"enabled": true,
+			"path": "net_rules/voicevox.json"
+		}]
+	},
+	"permissions": [
+		"declarativeNetRequest",
+		"storage"
+	],
+	"host_permissions": [
+		"http://localhost/*",
+		"https://www.youtube.com/*",
+		"https://studio.youtube.com/*",
+		"https://www.twitch.tv/*"
+	],
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "{720b3bc0-1ebf-4d0f-8612-eee4aa7d010b}"
+		}
+	}
+}

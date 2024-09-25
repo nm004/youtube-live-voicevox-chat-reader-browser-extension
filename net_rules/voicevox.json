@@ -1,0 +1,82 @@
+[
+	{
+		"id": 1,
+		"condition": {
+			"urlFilter": "||localhost",
+			"initiatorDomains": [ "www.youtube.com" ]
+		},
+		"action": {
+			"type": "modifyHeaders",
+			"requestHeaders": [{
+				"header": "Origin",
+				"operation": "set",
+				"value": "app://."
+			}],
+			"responseHeaders": [{
+				"header": "Access-Control-Allow-Origin",
+				"operation": "set",
+				"value": "https://www.youtube.com"
+			}]
+		}
+	},
+	{
+		"id": 2,
+		"condition": {
+			"urlFilter": "||localhost",
+			"initiatorDomains": [ "studio.youtube.com" ]
+		},
+		"action": {
+			"type": "modifyHeaders",
+			"requestHeaders": [{
+				"header": "Origin",
+				"operation": "set",
+				"value": "app://."
+			}],
+			"responseHeaders": [{
+				"header": "Access-Control-Allow-Origin",
+				"operation": "set",
+				"value": "https://studio.youtube.com"
+			}]
+		}
+	},
+	{
+		"id": 3,
+		"condition": {
+			"urlFilter": "||localhost",
+			"initiatorDomains": [ "www.twitch.tv" ]
+		},
+		"action": {
+			"type": "modifyHeaders",
+			"requestHeaders": [{
+				"header": "Origin",
+				"operation": "set",
+				"value": "app://."
+			}],
+			"responseHeaders": [{
+				"header": "Access-Control-Allow-Origin",
+				"operation": "set",
+				"value": "https://www.twitch.tv"
+			}]
+		}
+	},
+	{
+		"id": 4,
+		"condition": {
+			"urlFilter": "||localhost",
+			"initiatorDomains": [ "dashboard.twitch.tv" ]
+		},
+		"action": {
+			"type": "modifyHeaders",
+			"requestHeaders": [{
+				"header": "Origin",
+				"operation": "set",
+				"value": "app://."
+			}],
+			"responseHeaders": [{
+				"header": "Access-Control-Allow-Origin",
+				"operation": "set",
+				"value": "https://dashboard.twitch.tv"
+			}]
+		}
+	}
+]

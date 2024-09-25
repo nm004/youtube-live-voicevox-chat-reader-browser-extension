@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--
+	This file is a part of Youtube Live VOICEVOX Chat Reader by Nozomi Miyamori.
+	Youtube Live VOICEVOX Chat Reader is distributed under CC0 1.0 and the Public Domain.
+ -->
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<link href="style.css" rel="stylesheet"/>
+		<script type="module" async src="script.js"></script>
+		<title>YouTube Live VOICEVOX Chat Reader Configuration</title>
+	</head>
+	<body>
+		<main>
+			<fieldset>
+				<legend>一般</legend>
+				<div class="row">
+					<label for="speakers">話者</label>
+					<select id="speakers"></select>
+				</div>
+				<div class="row">
+					<label for="audio-volume">音量（既定値: 100）</label>
+					<input type="number" id="audio-volume" required value="100" min="0" max="100" step="5"/>
+				</div>
+				<div class="row">
+					<label for="min-playback-rate">読む速さ（既定値: 1）</label>
+					<input type="number" id="min-playback-rate" required value="1" min="0.25" max="4" step="0.05"/>
+				</div>
+				<div class="row">
+					<label for="play-pause-voice-sample">音声の確認（ループ再生）</label>
+					<button type="button" id="play-pause-voice-sample" aria-label="音声の再生と停止">
+						<canvas width="20" height="20" aria-hidden="true"></canvas>
+					</button>
+				</div>
+			</fieldset>
+			<hr/>
+			<fieldset>
+				<legend>高度な設定</legend>
+				<div class="row">
+					<label for="disable-playback-rate-control">読み上げの速さを一定にする（既定値: 無効）</label>
+					<input type="checkbox" id="disable-playback-rate-control"/>
+				</div>
+				<div class="row">
+					<label for="read-custom-emoji">カスタム絵文字を読み上げる（既定値: 無効）</label>
+					<input type="checkbox" id="read-custom-emoji"/>
+				</div>
+				<div class="row">
+					<label for="popout-only">チャット欄を別ウィンドウに表示（ポップアウト表示）しているときのみ読み上げる（既定値: 無効）</label>
+					<input type="checkbox" id="popout-only"/>
+				</div>
+				<div class="row">
+					<label for="max-text-length">切り捨てずに読む文章の長さ（既定値: 50）</label>
+					<input type="number" id="max-text-length" value="50" required min="0" max="9007199254740991" step="1"/>
+				</div>
+				<div class="row">
+					<label for="alternative-text">切り捨てた部分の代わりの文</label>
+					<textarea id="alternative-text"></textarea>
+				</div>
+				<div class="row">
+					<label for="new-blocked-author">次の名前のチャットを読み上げない</label>
+					<div>
+						<input type="text" id="new-blocked-author" placeholder="user1234" pattern="\S.+"/>
+						<input type="button" id="add-blocked-author" value="追加"/>
+						<select id="blocked-authors" multiple size="6" aria-label="名前一覧"></select>
+						<input type="button" id="delete-blocked-author" value="削除"/>
+					</div>
+				</div>
+				<div class="row">
+					<label for="voicevox-engine-port">VOICEVOX Engineの接続ポート（既定値: 50021）</label>
+					<div>
+						<input type="number" id="voicevox-engine-port" value="50021" min="0" max="65535"/>
+						<input type="button" id="reconnect" value="再接続"/>
+					</div>
+				</div>
+			</fieldset>
+		</main>
+		<dialog id="connection-error" aria-label="エラー">
+			<p>VOICEVOXに接続できません</p>
+			<form method="dialog"><button>OK</button></form>
+		</dialog>
+	</body>
+</html>

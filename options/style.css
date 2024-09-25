@@ -1,0 +1,104 @@
+/*
+ * This file is a part of Youtube Live VOICEVOX Chat Reader by Nozomi Miyamori.
+ * Youtube Live VOICEVOX Chat Reader is distributed under CC0 1.0 and the Public Domain.
+ */
+
+:root {
+	font-family: sans-serif;
+	color-scheme: light dark;
+}
+
+main > fieldset {
+	border: none;
+
+	legend {
+		font-size: 1.128rem;
+		font-weight: bold;
+	}
+
+
+	& > :not(legend) {
+		border-width: 0.5px 0px 0px 0px;
+		border-style: solid;
+		padding-block: 0.618ex 0.382ex;
+	}
+}
+
+main > fieldset > div.row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 0.618ex;
+
+	& > * {
+		height: fit-content;
+	}
+
+
+	& > :not(label) {
+		min-width: 0px;
+		width: 61.8%;
+	}
+
+	& select {
+		width: unset;
+	}
+
+	& :is(input[type="checkbox"], & input[type="button"]) {
+		width: fit-content;
+		height: fit-content;
+	}
+
+	& textarea {
+		resize: vertical;
+	}
+}
+
+
+main > fieldset > div.row > label[for="new-blocked-author"] + div {
+	width: unset;
+	display: grid;
+	grid-template-columns: 1.618fr 1fr;
+	gap: 0.618ex;
+
+	& > :is(input[type="text"], select) {
+		width: unset;
+		min-width: 0px;
+	}
+}
+
+main > fieldset > div.row > label[for="voicevox-engine-port"] + div {
+	width: unset;
+	white-space: nowrap;
+	& > input {
+		width: 61.8%;
+	}
+}
+
+main > hr {
+	border: 0px;
+	margin: 1rem;
+}
+
+input[type="number"], input[type="text"], textarea {
+	border-style: inset;
+}
+
+#new-blocked-user:invalid {
+	outline: 2px solid crimson;
+}
+
+#play-pause-voice-sample {
+	padding-block: 0.618ex;
+	width: 61.8%;
+
+	& > canvas {
+		width: 1rem;
+		height: 1rem;
+		background-color: currentcolor;
+		clip-path: polygon(0 0, 100% 50%, 0 100%);
+	}
+
+	&.playing > canvas {
+		clip-path: rect(0% 100% 100% 0%);
+	}
+}
