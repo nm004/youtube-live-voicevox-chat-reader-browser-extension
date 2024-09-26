@@ -107,7 +107,7 @@ class TextReader {
 
 		// We prioritize the most recent message when some messages are in the queue.
 		const q_length1 = this.#mutex0.length + this.#mutex1.length
-		if (q_length1 > q_length0 && q_length1 > 3) {
+		if (q_length1 > q_length0 && q_length1 > 2) {
 			this.#mutex0.leave();
 			return;
 		}
@@ -148,30 +148,28 @@ class TextReader {
 		// Next, we wait until the currently playing audio ends.
 		await this.#mutex1.enter();
 
-		const duration = this.#duration;
-		const duration2 = this.#duration1;
 		// Let's calculate the backward difference:
-		// y0 - y2 / h
+		// y0 - y1 / h
 		//
 		// Here, consider the audio data is divided into small time frames.
 		// Therefore, let,
 		// c0 = duration0
-		// c2 = duration2
-		// cr = 1/120 = 0.0083
-		// y0 = h*cr*c1
-		// y2 = h*cr*c2
+		// c1 = duration1
+		// cr = 1/60 = 0.0167
+		// y0 = h*cr*c0
+		// y1 = h*cr*c1
 		// h is constant over the time.
 		//
 		// thus,
-		// (y0 - y2) / h
-		// = (h*cr*c0 - h*cr*c2) / h
-		// = h*cr*(c0-c2) / h
-		// = cr*(c0-c2)
-		// = cr*(c0-c2)
+		// (y0 - y1) / h
+		// = (h*cr*c0 - h*cr*c1) / h
+		// = h*cr*(c0-c1) / h
+		// = cr*(c0-c1)
+		// = cr*(c0-c1)
 		this.audio.defaultPlaybackRate = (() => {
 			// 1/60 ~= 0.0167
 			const k = this.minPlaybackRate * 0.0167;
-			const r = this.audio.defaultPlaybackRate + k * (duration + duration0 - duration2);
+			const r = this.audio.defaultPlaybackRate + k * (this.#duration + duration0 - this.#duration1);
 			return Math.max(Math.min(r, this.maxPlaybackRate), this.minPlaybackRate);
 		})();
 
@@ -186,15 +184,14 @@ class TextReader {
 		this.#duration1 = this.#duration;
 		this.audio.currentTime = this.#prevTime = 0;
 
-		if (this.#mutex0.length + this.#mutex1.length === 1) {
+		if (this.#mutex0.length + this.#mutex1.length === 0) {
 			this.audio.defaultPlaybackRate = this.minPlaybackRate;
 			this.#duration = this.#duration1 = 0;
+		} else {
+			// Wait for a bit before reading the next.
+			const delay = 150 / this.audio.defaultPlaybackRate;
+			await new Promise(r => setTimeout(r, delay));
 		}
-
-		// Wait for a bit before reading the next.
-		const delay = 150 * (this.#mutex0.length + this.#mutex1.length > 1)
-			/ this.audio.defaultPlaybackRate;
-		await new Promise(r => setTimeout(r, delay));
 
 		this.#mutex1.leave();
 	}
