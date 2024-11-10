@@ -9,6 +9,7 @@ const userConfigs = await chrome.storage.local.get({
 	audioVolume: 1,
 	minPlaybackRate: 1,
 	disablePlaybackRateControl: false,
+	readAuthorName: false,
 	readCustomEmoji: false,
 	popoutOnly: false,
 	maxTextLength: 50,

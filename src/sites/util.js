@@ -40,6 +40,10 @@ class VoicevoxTextReader extends TextReader {
 			text = text.slice(0, userConfigs.maxTextLength) + ' ' + userConfigs.alternativeText;
 		}
 
+		if (userConfigs.readAuthorName) {
+			text = authorName + 'さん ' + text
+		}
+
 		super.readAloud(text);
 	};
 };

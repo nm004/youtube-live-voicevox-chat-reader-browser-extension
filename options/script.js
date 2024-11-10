@@ -31,6 +31,8 @@ chrome.declarativeNetRequest.updateSessionRules({
 });
 
 const audio = new Audio();
+audio.loop = true;
+/*
 audio.onended = async e => {
 	const playing = playPauseVoiceSampleButton.classList.contains('playing');
 	await new Promise(r => setTimeout(() => r(), 150/userConfigs.minPlaybackRate));
@@ -44,6 +46,7 @@ audio.oncanplaythrough = async e => {
 		audio.play();
 	}
 };
+*/
 const audioCtx = new AudioContext({ latencyHint: 'playback' });
 const gainNode = new GainNode(audioCtx);
 const audioSourceNode = new MediaElementAudioSourceNode(audioCtx, { mediaElement: audio });
@@ -113,22 +116,35 @@ minPlaybackRateInput.onchange = e => {
 	chrome.storage.local.set({ minPlaybackRate });
 };
 
+audio.onpause = () => {
+	playPauseVoiceSampleButton.classList.remove('playing');
+}
+audio.onplaying = () => {
+	playPauseVoiceSampleButton.classList.add('playing');
+}
+audio.onemptied = () => {
+	if (playPauseVoiceSampleButton.classList.contains('playing')) {
+		audio.play()
+	}
+}
 const playPauseVoiceSampleButton = document.getElementById('play-pause-voice-sample');
 playPauseVoiceSampleButton.onclick = e => {
-	const playing = playPauseVoiceSampleButton.classList.contains('playing');
-	if (playing) {
+	if (audio.paused) {
+		audio.play();
+	} else {
 		audio.pause();
 		audio.currentTime = 0;
-		playPauseVoiceSampleButton.classList.remove('playing');
-		return;
 	}
-	audio.play();
-	playPauseVoiceSampleButton.classList.add('playing');
 };
 
 const disablePlaybackRateControlInput = document.getElementById('disable-playback-rate-control');
 disablePlaybackRateControlInput.onchange = e => {
 	chrome.storage.local.set({ disablePlaybackRateControl: disablePlaybackRateControlInput.checked });
+};
+
+const readAuthorNameInput= document.getElementById('read-author-name');
+readAuthorNameInput.onchange = e => {
+	chrome.storage.local.set({ readAuthorName: readAuthorNameInput.checked });
 };
 
 const readCustomEmojiInput = document.getElementById('read-custom-emoji');
@@ -262,6 +278,7 @@ const connectionErrorDialog = document.getElementById('connection-error');
 	audio.volume = userConfigs.audioVolume;
 	audio.defaultPlaybackRate = userConfigs.minPlaybackRate;
 	disablePlaybackRateControlInput.checked = userConfigs.disablePlaybackRateControl;
+	readAuthorNameInput.checked = userConfigs.readAuthorName;
 	readCustomEmojiInput.checked = userConfigs.readCustomEmoji;
 	popoutOnlyInput.checked = userConfigs.popoutOnly;
 	maxTextLengthInput.value = userConfigs.maxTextLength;

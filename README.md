@@ -1,13 +1,13 @@
 YouTube Live VOICEVOX Chat Reader Browser Extension
-========================================================
+===================================================
 
-A browser extension that reads aloud YouTube Live chat in Japanese with
+A browser extension that reads aloud YouTube Live chats in Japanese with
 [VOICEVOX](https://voicevox.hiroshiba.jp/).
 
-Compatibility
--------------
+Requirements
+------------
 
-- VOICEVOX 0.20.0
+- VOICEVOX 0.21.0 or above
 
 ### Web Browsers
 
